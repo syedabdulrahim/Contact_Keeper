@@ -1,6 +1,11 @@
 const express=require('express');
-const user=require('../models/Users');
+// const user=require('../models/Users');
 const { body, validationResult } = require('express-validator');
+const Users = require('../models/Users');
+const { Model } = require('mongoose');
+const bcrypt=require('bcryptjs');
+const jwt=require('jsonwebtoken');
+const config=require('config')
 
 const router=express.Router();
 
@@ -16,20 +21,51 @@ router.post('/',[
     body('password','Please enter a password with 7 or more charecters').isLength({min:7})
     
 
-],(req,res)=>{
+], async (req,res)=>{
 
     // resp.send('Registers a user');
     const errors=validationResult(req);
     if(!errors.isEmpty()){
-        res.status(400).json({error:errors.array()})
+       return res.status(400).json({error:errors.array()})
     }
 
-    else{
-        res.status(200).json({status:"OK"})
-    }
-    console.log(req.body);
-    resp.send(req.body);
+    const {name,email,password}=req.body;
 
+    try{
+        let user= await Users.findOne({email})
+        if(user){
+
+           return res.status(400).json({msg:"User Already Exists"})
+        }
+     user= new Users({name,email,password});
+     console.log(user)
+    const salt=  await bcrypt.genSalt(10);
+    user.password= await bcrypt.hash(password,salt);
+
+    await user.save()
+
+    const payload={
+        user:{
+            id:user.id
+        }
+    }
+
+    jwt.sign(payload,config.get('jwtSecret'),{
+        expiresIn:360000 
+    },(err,token)=>{
+        if(err) throw err;
+        res.json({token})
+    })
+
+    // res.send("Sucessful")
+    }
+    catch(error){
+
+        console.log(error.message);
+        res.status(500).json({"error":"something wrong"})
+    }
+
+    
 })
 
 module.exports=router;
