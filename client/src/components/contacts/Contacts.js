@@ -1,6 +1,7 @@
 import React,{useContext,Fragment} from 'react';
 import ContactContext from '../../context/contact/contactContext';
 import ContactItem from '../contacts/ContactItem';
+// import ContactFilter from './ContactFilter';
 
 
 
@@ -8,13 +9,16 @@ import ContactItem from '../contacts/ContactItem';
 const Contacts=(props)=>{
 
 const contactContext=useContext(ContactContext);
+const{filtered}=contactContext;
 
 return(
 
     <Fragment>
-        {contactContext.contacts.map((contact)=>{
-            return<ContactItem contact={contact} key={contact.id}></ContactItem>
+        {filtered!=null?
+        filtered.map(contact=>{return <div><ContactItem contact={contact} key={contact.id}></ContactItem> </div>})
+        :contactContext.contacts.map((contact)=>{return<div><ContactItem contact={contact} key={contact.id}></ContactItem></div>
         })}
+        
     </Fragment>
 )
 
