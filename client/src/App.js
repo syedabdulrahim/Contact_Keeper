@@ -7,31 +7,42 @@ import ContactState from './context/contact/ContactState';
 import AuthState from './context/auth/AuthState';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
+import Alerts from './components/layout/Alerts';
+import AlertState from './context/alert/AlertState';
+import setAuthToken from './utility/setAuthToken';
+import './App.css';
 
+if(localStorage.token){
+  setAuthToken(localStorage.token)
+}
 
 // import logo from './logo.svg';
-import './App.css';
+
 
 function App() {
   return (
-  <AuthState>
-    <ContactState>  
-     <BrowserRouter>
-        <React.Fragment>
-           <Navbar/>
-              <div className="container">
-               <Switch>
-                <Route exact path ="/"  component={Home}></Route>
-                <Route exact path ="/about"  component={About}></Route>
-                <Route exact path="/register" component={Register}></Route>
-                <Route exact path="/login" component={Login}></Route>
-
-                 </Switch>
-              </div>
-       </React.Fragment>
-     </BrowserRouter>
-    </ContactState>
-  </AuthState>
+            
+                <AuthState>
+                  <ContactState>  
+                   <AlertState>
+                   <BrowserRouter>
+                      <React.Fragment>
+                         <Navbar/>
+                            <div className="container">
+                              <Alerts></Alerts>
+                             <Switch>
+                              <Route exact path ="/"  component={Home}></Route>
+                              <Route exact path ="/about"  component={About}></Route>
+                              <Route exact path="/register" component={Register}></Route>
+                              <Route exact path="/login" component={Login}></Route>
+                               </Switch>
+                            </div>
+                     </React.Fragment>
+                   </BrowserRouter>
+                   </AlertState>
+                  </ContactState>
+                </AuthState>
+              
  
   );
 }

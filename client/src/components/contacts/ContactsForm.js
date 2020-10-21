@@ -69,7 +69,7 @@ const ContactsForm = (props) => {
 
        <form onSubmit={onSubmit}>
            <h2 className="text-primary">{current?'Edit Contact' :'Add Contact'}</h2>
-           <input type="text"  placeholder="Name" name="name" value={name} onChange={onChange}></input>
+           <input type="text"  placeholder="Name" name="name" value={name} onChange={onChange} ></input>
            <input type="email"  placeholder="Email" name="email" value={email} onChange={onChange}></input>
            <input type="text"  placeholder="Phone" name="phone" value={phone} onChange={onChange}></input>
 

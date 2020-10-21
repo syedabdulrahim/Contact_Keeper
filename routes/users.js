@@ -18,7 +18,7 @@ router.post('/',[
     .not()
     .isEmpty(),
     body('email','Please add your email-ID').isEmail(),
-    body('password','Please enter a password with 7 or more charecters').isLength({min:7})
+    body('password','Please enter a password with 7 or more charecters').isLength({min:6})
     
 
 ], async (req,res)=>{
