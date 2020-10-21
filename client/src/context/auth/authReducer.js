@@ -43,6 +43,20 @@ import {REGISTER_FAIL,
                     token:null
                 }
             }
+            case LOGOUT:{
+
+                localStorage.removeItem('token');
+                return{
+
+                    ...state,
+                    isAuthenticated:false,
+                    loading:false,
+                    error:null,
+                    user:null,
+                    token:null
+                }
+
+            }
 
             case CLEAR_ERRORS:{
                 console.log(CLEAR_ERRORS)
