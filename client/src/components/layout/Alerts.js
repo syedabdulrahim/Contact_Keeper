@@ -4,7 +4,8 @@ import AlertContext from '../../context/alert/alertContext'
 
 export const Alerts = (props) => {
 
-    const alertContext=useContext(AlertContext)
+    const alertContext=useContext(AlertContext);
+    console.log("rendererd alerts")
     return (alertContext.alerts.length>0&&alertContext.alerts.map(alert=>{
 
         return (

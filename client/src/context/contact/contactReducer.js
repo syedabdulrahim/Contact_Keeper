@@ -4,7 +4,10 @@ import {ADD_CONTACT,
     CLEAR_CURRENT,
     UPDATE_CONTACT,
     FILTER_CONTACTS,
-    CLEAR_FILTER} from '../types';
+    CLEAR_FILTER,
+    GET_CONTACTS,
+CONTACT_ERROR,
+CLEAR_CONTACTS} from '../types';
 
 
 
@@ -15,7 +18,18 @@ const reducer=(state,action)=>{
             case ADD_CONTACT:{
                 return{
                     ...state,
-                    contacts:[...state.contacts,action.payload]
+                    contacts:[action.payload,...state.contacts]
+                }
+            }
+
+            case CLEAR_CONTACTS:{
+                return{
+                    ...state,
+                    contacts:null,
+                    filtered:null,
+                    error:null,
+                    current:null,
+                    loading:false
                 }
             }
 
@@ -23,7 +37,7 @@ const reducer=(state,action)=>{
               
                 const oldContacts=[...state.contacts];
                 const newContacts=oldContacts.filter((contact)=>{
-                    return contact.id!=action.payload
+                    return contact._id!=action.payload
                 })
 
                 return{
@@ -52,7 +66,7 @@ const reducer=(state,action)=>{
                     ...state,
                     current:null,
                     contacts:state.contacts.map((contact)=>{
-                        if(contact.id==action.payload.id){
+                        if(contact._id==action.payload._id){
                             return action.payload;
                         }
                         else{
@@ -77,6 +91,21 @@ const reducer=(state,action)=>{
                 return{
                     ...state,
                     filtered:null
+                }
+            }
+
+            case CONTACT_ERROR:{
+                return{
+                    ...state,
+                    error:action.payload
+                }
+            }
+
+            case GET_CONTACTS:{
+                return{
+                     ...state,
+                     contacts:action.payload,
+                     loading:false
                 }
             }
 

@@ -14,7 +14,7 @@ export const Login = (props) => {
         email:'',
         password:''
     })
-
+    console.log("Render Login component")
     useEffect(()=>{
 
         if(isAuthenticated){
